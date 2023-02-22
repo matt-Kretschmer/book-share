@@ -42,3 +42,24 @@ BEGIN
 		)
 END
 GO
+
+CREATE PROCEDURE [uspRateACopy]
+	@copyID integer NOT NULL,
+	@rating integer NOT NULL,
+	@ratingDate date NOT NULL
+AS
+BEGIN
+	INSERT INTO [copyConditionRating]
+		(
+			[copyID],
+			[rating],
+			[ratingDate]
+		)
+	VALUES
+		(
+			@copyID,
+			@rating,
+			@ratingDate
+		)
+END
+GO
