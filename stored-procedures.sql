@@ -161,3 +161,41 @@ AS
     FROM book
     WHERE book.ISBN = @ISBN
 GO
+
+CREATE PROCEDURE createBookRequest
+@copyID integer,
+@borrowerID integer,
+@lendingDate DateTime,
+@returnDate DateTime
+AS
+BEGIN
+	INSERT INTO shareAgreement (copyID,ownerID,borrowerID,lendingDate,returnDate,"state")
+	VALUES (
+		@copyID,
+		(
+			SELECT u.userID 
+			FROM "user" u,bookCopy bc 
+			WHERE u.userID = bc.ownerID AND bc.copyID = @copyID
+		),
+		@borrowerID,
+		@lendingDate,
+		@returnDate,
+		(
+			SELECT "as".stateID 
+			FROM agreementState "as" 
+			where "as".stateName = 'Pending'
+		)
+	)
+END
+GO
+
+CREATE PROCEDURE setRequestStateByUsers
+@shareAgreementId integer,
+@state integer
+AS
+BEGIN
+	UPDATE shareAgreement 
+	SET "state" = @state
+	where agreementID = @state
+END
+GO
