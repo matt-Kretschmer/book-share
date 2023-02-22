@@ -1,5 +1,5 @@
 USE BookShareDB;
-GO;
+GO
 
 CREATE PROCEDURE [uspGetErrorInfo]
 AS
@@ -96,15 +96,36 @@ CREATE OR ALTER PROCEDURE getBookCopiesAvailableByISBN @ISBN integer
 AS
     SELECT bookCopy.copyID
     FROM bookCopy
-    WHERE bookID = @ISBN AND copyIsAvailable(copyID) = 'TRUE'
-GO;
+    WHERE bookID = @ISBN AND [dbo].[copyIsAvailable](copyID) = 'TRUE'
+GO
 
-CREATE OR ALTER PROCEDURE removeCopyOfBook @copyID
+CREATE OR ALTER PROCEDURE removeCopyOfBook @copyID integer
 -- Removes a copy from the library
 AS
     DELETE FROM bookCopy
     WHERE copyID = @copyID
-GO;
+GO
+
+CREATE OR ALTER PROCEDURE addCopyOfBook @ISBN integer, @ownerID integer
+AS
+-- Adds a new copy of the book and returns it's copy ID
+BEGIN
+	DECLARE @copyID integer;
+
+    INSERT INTO [dbo].[bookCopy]
+		( bookID, ownerID )
+    OUTPUT INSERTED.copyID AS copyID
+    VALUES 
+		( @ISBN, @ownerID )
+END;
+GO
+
+CREATE OR ALTER PROCEDURE removeCopyOfBook @copyID integer
+-- Removes a copy from the library
+AS
+    DELETE FROM bookCopy
+    WHERE copyID = @copyID
+GO
 
 CREATE OR ALTER PROCEDURE getBooksByGenre @name varchar
 -- Gets books by Genre
@@ -114,29 +135,29 @@ AS
     INNER JOIN bookGenre ON bookGenre.bookID = book.ISBN
     INNER JOIN genre ON bookGenre.genreID = genre.genreID
     WHERE genre.name = @name
-GO;
+GO
 
 CREATE OR ALTER PROCEDURE getBooksByAuthor @firstNames varchar, @lastName varchar
 -- Gets books by Author
 AS
     SELECT book.ISBN, book.title, book.description, book.pages
-    FROM BookShareDB.book
-    INNER JOIN BookShareDB.bookAuthor ON bookAuthor.bookID = book.ISBN
-    INNER JOIN BookShareDB.author ON bookAuthor.authorID = author.authorID
+    FROM [dbo].[book]
+    INNER JOIN [dbo].[bookAuthor] ON bookAuthor.bookID = book.ISBN
+    INNER JOIN [dbo].[author] ON bookAuthor.authorID = author.authorID
     WHERE author.firstNames LIKE @firstNames AND author.lastName LIKE @lastName
-GO;
+GO
 
 CREATE OR ALTER PROCEDURE getBooksByTitle @title varchar
 -- Gets books that include this as it's title
 AS
     SELECT book.ISBN, book.title, book.description, book.pages
-    FROM BookShareDB.book
+    FROM [dbo].[book]
     WHERE book.title LIKE '%' + @title + '%'
-GO;
+GO
 
 CREATE OR ALTER PROCEDURE getBookByISBN @ISBN integer
 AS
     SELECT book.title, book.description, book.pages 
     FROM book
     WHERE book.ISBN = @ISBN
-GO;
+GO
