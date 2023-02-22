@@ -8,7 +8,7 @@ CREATE PROCEDURE [uspReviewABook]
 	@description varchar NULL
 AS
 BEGIN
-	INSERT INTO bookReview
+	INSERT INTO [bookReview]
 		(
 			[bookID],
 			[userID],
@@ -23,3 +23,22 @@ BEGIN
 			@description
 		)
 END
+GO
+
+CREATE PROCEDURE [uspRateAUser]
+	@userID integer NOT NULL,
+	@rating integer NOT NULL
+AS
+BEGIN
+	INSERT INTO [userRating]
+		(
+			[userID],
+			[rating]
+		)
+	VALUES
+		(
+			@userID,
+			@rating
+		)
+END
+GO
