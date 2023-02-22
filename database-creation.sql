@@ -53,8 +53,7 @@ GO
 
 CREATE TABLE [author] (
   [authorID] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
-  [firstName] varchar NOT NULL,
-  [middleName] varchar NULL,
+  [firstNames] varchar NOT NULL,
   [lastName] varchar NOT NULL,
   [about] varchar NOT NULL
 )
