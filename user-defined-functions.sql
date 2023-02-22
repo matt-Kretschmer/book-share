@@ -20,3 +20,29 @@ BEGIN
 	RETURN @available;
 END;
 GO
+
+CREATE OR ALTER FUNCTION getAuthorID
+(@fnames varchar,
+@lname varchar)
+RETURNS integer 
+AS
+BEGIN 	
+	DECLARE @Id int;
+
+	SELECT @Id = authorId
+	FROM author
+	WHERE firstNames = @fnames AND lastName = @lname;
+
+	RETURN @Id;
+END;
+GO
+
+CREATE OR ALTER FUNCTION getBookReviews
+(@isbn integer)
+RETURNS TABLE 
+AS
+RETURN
+	SELECT *
+	FROM bookReview
+	WHERE bookID = @isbn;
+GO
