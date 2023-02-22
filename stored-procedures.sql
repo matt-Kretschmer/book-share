@@ -1,13 +1,25 @@
 USE BookShareDB;
 GO
 
+CREATE PROCEDURE [uspGetErrorInfo]
+AS
+  SELECT
+     ERROR_NUMBER() AS ErrorNumber,
+	 ERROR_SEVERITY() AS ErrorSeverity,
+	 ERROR_STATE() AS ErrorState,
+     ERROR_PROCEDURE() AS ErrorProcedure,
+     ERROR_LINE() AS ErrorLine,
+     ERROR_MESSAGE() AS ErrorMessage;
+GO
+
 CREATE PROCEDURE [uspReviewABook]
-	@bookID integer NOT NULL,
-	@userID integer NOT NULL,
-	@rating integer NOT NULL,
-	@description varchar NULL
+	@bookID integer,
+	@userID integer,
+	@rating integer,
+	@description varchar = NULL
 AS
 BEGIN
+BEGIN TRY
 	INSERT INTO [bookReview]
 		(
 			[bookID],
@@ -22,14 +34,19 @@ BEGIN
 			@rating,
 			@description
 		)
+END TRY
+BEGIN CATCH
+	SELECT * FROM [uspGetErrorInfo]()
+END CATCH
 END
 GO
 
 CREATE PROCEDURE [uspRateAUser]
-	@userID integer NOT NULL,
-	@rating integer NOT NULL
+	@userID integer,
+	@rating integer
 AS
 BEGIN
+BEGIN TRY
 	INSERT INTO [userRating]
 		(
 			[userID],
@@ -40,15 +57,20 @@ BEGIN
 			@userID,
 			@rating
 		)
+END TRY
+BEGIN CATCH
+	SELECT * FROM [uspGetErrorInfo]()
+END CATCH
 END
 GO
 
 CREATE PROCEDURE [uspRateACopy]
-	@copyID integer NOT NULL,
-	@rating integer NOT NULL,
-	@ratingDate date NOT NULL
+	@copyID integer,
+	@rating integer,
+	@ratingDate date
 AS
 BEGIN
+BEGIN TRY
 	INSERT INTO [copyConditionRating]
 		(
 			[copyID],
@@ -61,5 +83,9 @@ BEGIN
 			@rating,
 			@ratingDate
 		)
+END TRY
+BEGIN CATCH
+	SELECT * FROM [uspGetErrorInfo]()
+END CATCH
 END
 GO
