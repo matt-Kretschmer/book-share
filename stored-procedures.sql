@@ -199,3 +199,25 @@ BEGIN
 	where agreementID = @state
 END
 GO
+
+CREATE OR ALTER PROCEDURE addUser
+@username varchar
+-- Adds a user to the library
+AS
+BEGIN
+	DECLARE @userID integer;
+
+    INSERT INTO [user]
+		( username )
+    OUTPUT INSERTED.userID AS userID
+    VALUES 
+		( @username )
+END
+GO
+
+CREATE OR ALTER PROCEDURE removeUser @userID integer
+-- Removes a user from the library
+AS
+    DELETE FROM [user]
+    WHERE userID = @userID
+GO
