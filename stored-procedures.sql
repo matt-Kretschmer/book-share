@@ -11,7 +11,47 @@ AS
      ERROR_LINE() AS ErrorLine,
      ERROR_MESSAGE() AS ErrorMessage;
 GO
+CREATE OR ALTER PROCEDURE BookShareDB.getBookCopiesAvailableByISBN @ISBN integer
+-- Looks for all available, i.e. unborrorowed/returned books in the library with that ISBN.
+AS
+    SELECT bookCopy.copyID
+    FROM BookShareDB.bookCopy
+    WHERE bookCopy.bookID = @ISBN AND BookShareDB.copyIsAvailable(copyID) = 'TRUE'
+GO;
 
+CREATE OR ALTER PROCEDURE BookShareDB.removeCopyOfBook @copyID
+-- Removes a copy from the library
+AS
+    DELETE FROM BookShareDB.bookCopy
+    WHERE bookCopy.copyID = @copyID
+GO;
+
+CREATE OR ALTER PROCEDURE BookShareDB.getBooksByGenre @name varchar
+-- Gets books by Genre
+AS
+    SELECT book.ISBN, book.title, book.description, book.pages
+    FROM BookShareDB.book
+    INNER JOIN BookShareDB.bookGenre ON bookGenre.bookID = book.ISBN
+    INNER JOIN BookShareDB.genre ON bookGenre.genreID = genre.genreID
+    WHERE genre.name = @name
+GO;
+
+CREATE OR ALTER PROCEDURE BookShareDB.getBooksByAuthor @firstNames varchar, @lastName varchar
+-- Gets books by Author
+AS
+    SELECT book.ISBN, book.title, book.description, book.pages
+    FROM BookShareDB.book
+    INNER JOIN BookShareDB.bookAuthor ON bookAuthor.bookID = book.ISBN
+    INNER JOIN BookShareDB.author ON bookAuthor.authorID = author.authorID
+    WHERE author.firstNames LIKE @firstNames AND author.lastName LIKE @lastName
+GO;
+
+CREATE OR ALTER PROCEDURE BookShareDB.getBooksByTitle @title varchar
+-- Gets books that include this as it's title
+AS
+    SELECT book.ISBN, book.title, book.description, book.pages
+    FROM BookShareDB.book
+    WHERE book.title LIKE '%' + @title + '%'
 CREATE PROCEDURE [uspReviewABook]
 	@bookID integer,
 	@userID integer,
