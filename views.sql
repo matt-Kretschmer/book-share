@@ -1,7 +1,7 @@
 USE BookShareDB;
 GO
 
-CREATE VIEW vCurrentShareAgreements
+CREATE VIEW [vCurrentShareAgreements]
 AS
 SELECT [agreementID],
 	   [copyID],
@@ -10,6 +10,6 @@ SELECT [agreementID],
 	   [lendingDate],
 	   [returnDate],
 	   [state]
-FROM shareAgreement
+FROM [shareAgreement]
 WHERE [returnDate] >= CAST((GETDATE()) AS date);
 GO
