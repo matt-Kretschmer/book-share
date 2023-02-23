@@ -16,7 +16,7 @@ CREATE OR ALTER PROCEDURE [uspReviewABook]
 	@bookID bigint,
 	@userID integer,
 	@rating integer,
-	@description varchar = NULL
+	@description varchar(200) = NULL
 AS
 BEGIN
 BEGIN TRY
