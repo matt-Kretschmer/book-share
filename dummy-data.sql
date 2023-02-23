@@ -135,3 +135,35 @@ SET @authorID = SCOPE_IDENTITY()
 INSERT INTO [bookAuthor] ([bookID], [authorID])
 VALUES ('9780684830490', @authorID);
 GO
+
+DECLARE @publisherID integer
+
+INSERT INTO [publisher] ([name])
+VALUES ('Signet Classics');
+SET @publisherID = SCOPE_IDENTITY()
+
+INSERT INTO [bookPublisher] ([publisherID], [bookID])
+VALUES (@publisherID, '9780451526342');
+
+INSERT INTO [publisher] ([name])
+VALUES ('Scribner');
+SET @publisherID = SCOPE_IDENTITY()
+
+INSERT INTO [bookPublisher] ([publisherID], [bookID])
+VALUES (@publisherID, '9780684801520'),
+	   (@publisherID, '9780684830490');
+
+INSERT INTO [publisher] ([name])
+VALUES ('Harper Voyager');
+SET @publisherID = SCOPE_IDENTITY()
+
+INSERT INTO [bookPublisher] ([publisherID], [bookID])
+VALUES (@publisherID, '9780007491568');
+
+INSERT INTO [publisher] ([name])
+VALUES ('Plume');
+SET @publisherID = SCOPE_IDENTITY()
+
+INSERT INTO [bookPublisher] ([publisherID], [bookID])
+VALUES (@publisherID, '9780452284234');
+GO
