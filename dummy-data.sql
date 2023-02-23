@@ -33,72 +33,105 @@ VALUES	('9780451526342', 'Animal Farm', 'A farm is taken over by its overworked,
 		('9780452284234', '1984', 'The new novel by George Orwell is the major work towards which all his previous writing has pointed. Critics have hailed it as his "most solid, most brilliant" work. Though the story of Nineteen Eighty-Four takes place thirty-five years hence, it is in every sense timely. The scene is London, where there has been no new housing since 1950 and where the city-wide slums are called Victory Mansions. Science has abandoned Man for the State. As every citizen knows only too well, war is peace. To Winston Smith, a young man who works in the Ministry of Truth (Minitru for short), come two people who transform this life completely. One is Julia, whom he meets after she hands him a slip reading, "I love you." The other is O''Brien, who tells him, "We shall meet in the place where there is no darkness." The way in which Winston is betrayed by the one and, against his own desires and instincts, ultimately betrays the other, makes a story of mounting drama and suspense.', '368');
 GO
 
-declare @genreID integer
+DECLARE @genreID integer
 
 INSERT INTO [genre] ([name])
 VALUES ('Classics')
 SET @genreID = SCOPE_IDENTITY()
 
 INSERT INTO [bookGenre] ([bookID], [genreID])
-VALUES ('9780451526342','@genreID'),
-	   ('9780684801520','@genreID'),
-	   ('9780007491568','@genreID'),
-	   ('9780684830490','@genreID'),
-	   ('9780452284234','@genreID');
+VALUES ('9780451526342', @genreID),
+	   ('9780684801520', @genreID),
+	   ('9780007491568', @genreID),
+	   ('9780684830490', @genreID),
+	   ('9780452284234', @genreID);
 
 INSERT INTO [genre] ([name])
 VALUES ('Fiction')
 SET @genreID = SCOPE_IDENTITY()
 
 INSERT INTO [bookGenre] ([bookID], [genreID])
-VALUES ('9780451526342','@genreID'),
-	   ('9780684801520','@genreID'),
-	   ('9780007491568','@genreID'),
-	   ('9780684830490','@genreID'),
-	   ('9780452284234','@genreID');
+VALUES ('9780451526342', @genreID),
+	   ('9780684801520', @genreID),
+	   ('9780007491568', @genreID),
+	   ('9780684830490', @genreID),
+	   ('9780452284234', @genreID);
 
 INSERT INTO [genre] ([name])
 VALUES ('Adventure')
 SET @genreID = SCOPE_IDENTITY()
 
 INSERT INTO [bookGenre] ([bookID], [genreID])
-VALUES ('9780684830490','@genreID');
+VALUES ('9780684830490', @genreID);
 
 INSERT INTO [genre] ([name])
 VALUES ('Science Fiction')
 SET @genreID = SCOPE_IDENTITY()
 
 INSERT INTO [bookGenre] ([bookID], [genreID])
-VALUES ('9780007491568','@genreID'),
-	   ('9780452284234','@genreID');
+VALUES ('9780007491568', @genreID),
+	   ('9780452284234', @genreID);
 
 INSERT INTO [genre] ([name])
 VALUES ('Politics')
 SET @genreID = SCOPE_IDENTITY()
 
 INSERT INTO [bookGenre] ([bookID], [genreID])
-VALUES ('9780451526342','@genreID'),
-	   ('9780452284234','@genreID');
+VALUES ('9780451526342', @genreID),
+	   ('9780452284234', @genreID);
 
 INSERT INTO [genre] ([name])
 VALUES ('Dystopia')
 SET @genreID = SCOPE_IDENTITY()
 
 INSERT INTO [bookGenre] ([bookID], [genreID])
-VALUES ('9780451526342','@genreID'),
-	   ('9780007491568','@genreID'),
-	   ('9780452284234','@genreID');
+VALUES ('9780451526342', @genreID),
+	   ('9780007491568', @genreID),
+	   ('9780452284234', @genreID);
 
 INSERT INTO [genre] ([name])
 VALUES ('Historical Fiction')
 SET @genreID = SCOPE_IDENTITY()
 
 INSERT INTO [bookGenre] ([bookID], [genreID])
-VALUES ('9780684801520','@genreID');
+VALUES ('9780684801520', @genreID);
 
 INSERT INTO [genre] ([name])
 VALUES ('Romance')
 SET @genreID = SCOPE_IDENTITY()
 
 INSERT INTO [bookGenre] ([bookID], [genreID])
-VALUES ('9780684801520','@genreID');
+VALUES ('9780684801520', @genreID);
+GO
+
+DECLARE @authorID integer
+
+INSERT INTO [author] ([firstNames], [lastName], [about])
+VALUES ('George', 'Orwell', 'Eric Arthur Blair, better known by his pen name George Orwell, was an English author and journalist. His work is marked by keen intelligence and wit, a profound awareness of social injustice, an intense opposition to totalitarianism, a passion for clarity in language, and a belief in democratic socialism.');
+SET @authorID = SCOPE_IDENTITY()
+
+INSERT INTO [bookAuthor] ([bookID], [authorID])
+VALUES ('9780451526342', @authorID),
+	   ('9780452284234', @authorID);
+
+INSERT INTO [author] ([firstNames], [lastName], [about])
+VALUES ('Francis Scott Key', 'Fitzgerald', 'Francis Scott Key Fitzgerald was an American writer of novels and short stories, whose works have been seen as evocative of the Jazz Age, a term he himself allegedly coined. He is regarded as one of the greatest twentieth century writers. Fitzgerald was of the self-styled "Lost Generation," Americans born in the 1890s who came of age during World War I. He finished four novels, left a fifth unfinished, and wrote dozens of short stories that treat themes of youth, despair, and age. He was married to Zelda Fitzgerald.');
+SET @authorID = SCOPE_IDENTITY()
+
+INSERT INTO [bookAuthor] ([bookID], [authorID])
+VALUES ('9780684801520', @authorID);
+
+INSERT INTO [author] ([firstNames], [lastName], [about])
+VALUES ('Ray Douglas', 'Bradbury', 'Ray Douglas Bradbury, American novelist, short story writer, essayist, playwright, screenwriter and poet, was born August 22, 1920 in Waukegan, Illinois. He graduated from a Los Angeles high school in 1938. Although his formal education ended there, he became a "student of life," selling newspapers on L.A. street corners from 1938 to 1942, spending his nights in the public library and his days at the typewriter. He became a full-time writer in 1943, and contributed numerous short stories to periodicals before publishing a collection of them, Dark Carnival, in 1947.');
+SET @authorID = SCOPE_IDENTITY()
+
+INSERT INTO [bookAuthor] ([bookID], [authorID])
+VALUES ('9780007491568', @authorID);
+
+INSERT INTO [author] ([firstNames], [lastName], [about])
+VALUES ('Ernest Miller', 'Hemingway', 'Ernest Miller Hemingway was an American author and journalist. His economical and understated style had a strong influence on 20th-century fiction, while his life of adventure and his public image influenced later generations. Hemingway produced most of his work between the mid-1920s and the mid-1950s, and won the Nobel Prize in Literature in 1954. He published seven novels, six short story collections and two non-fiction works. Three novels, four collections of short stories and three non-fiction works were published posthumously. Many of these are considered classics of American literature.');
+SET @authorID = SCOPE_IDENTITY()
+
+INSERT INTO [bookAuthor] ([bookID], [authorID])
+VALUES ('9780684830490', @authorID);
+GO
