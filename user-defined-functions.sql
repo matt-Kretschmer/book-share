@@ -25,8 +25,8 @@ END;
 GO
 
 CREATE OR ALTER FUNCTION getAuthorID
-(@fnames varchar,
-@lname varchar)
+(@fnames varchar(120),
+@lname varchar(120))
 RETURNS integer 
 AS
 BEGIN 	
