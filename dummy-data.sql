@@ -15,3 +15,11 @@ VALUES (1, 5),
 (2, 4),
 (3, 3),
 (4, 2);
+
+INSERT INTO [agreementState] (stateID, stateName) 
+VALUES 
+(0, 'Pending'),
+(1, 'Accepted'),
+(2, 'Denied'),
+(3, 'Received'),
+(4, 'Returned')
