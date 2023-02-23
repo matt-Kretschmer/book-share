@@ -155,7 +155,7 @@ AS
     WHERE book.ISBN = @ISBN
 GO
 
-CREATE PROCEDURE createBookRequest
+CREATE OR ALTER PROCEDURE createBookRequest
 @copyID integer,
 @borrowerID integer,
 @lendingDate DateTime,
@@ -182,7 +182,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE setRequestStateByUsers
+CREATE OR ALTER PROCEDURE setRequestStateByUsers
 @shareAgreementId integer,
 @state integer
 AS
@@ -201,16 +201,21 @@ BEGIN
 	DECLARE @userID integer;
 
     INSERT INTO [user]
-		( username )
+		( username, deleted )
     OUTPUT INSERTED.userID AS userID
     VALUES 
-		( @username )
+		( @username, 0 )
 END
 GO
 
-CREATE OR ALTER PROCEDURE removeUser @userID integer
+CREATE OR ALTER PROCEDURE removeUser
+@userID integer
 -- Removes a user from the library
 AS
-    DELETE FROM [user]
-    WHERE userID = @userID
+BEGIN
+	SET NOCOUNT ON;
+	UPDATE [user]
+	SET deleted = 1
+	where userID = @userID
+END
 GO

@@ -13,7 +13,8 @@ GO
 
 CREATE TABLE [user] (
   [userID] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
-  [username] varchar UNIQUE NOT NULL
+  [username] varchar UNIQUE NOT NULL,
+  [deleted] BIT
 )
 GO
 
