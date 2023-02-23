@@ -124,7 +124,7 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER PROCEDURE getBooksByGenre @name varchar
+CREATE OR ALTER PROCEDURE getBooksByGenre @name varchar(20)
 -- Gets books by Genre
 AS
     SELECT book.ISBN, book.title, book.description, book.pages
