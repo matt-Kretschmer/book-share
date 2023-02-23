@@ -134,7 +134,7 @@ AS
     WHERE genre.name = @name
 GO
 
-CREATE OR ALTER PROCEDURE getBooksByAuthor @firstNames varchar, @lastName varchar
+CREATE OR ALTER PROCEDURE getBooksByAuthor @firstNames varchar(120), @lastName varchar(120)
 -- Gets books by Author
 AS
     SELECT book.ISBN, book.title, book.description, book.pages
@@ -144,7 +144,7 @@ AS
     WHERE author.firstNames LIKE @firstNames AND author.lastName LIKE @lastName
 GO
 
-CREATE OR ALTER PROCEDURE getBooksByTitle @title varchar
+CREATE OR ALTER PROCEDURE getBooksByTitle @title varchar(120)
 -- Gets books that include this as it's title
 AS
     SELECT book.ISBN, book.title, book.description, book.pages
@@ -198,7 +198,7 @@ END
 GO
 
 CREATE OR ALTER PROCEDURE addUser
-@username varchar
+@username varchar(15)
 -- Adds a user to the library
 AS
 BEGIN
