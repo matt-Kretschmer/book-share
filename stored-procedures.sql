@@ -162,7 +162,7 @@ AS
     WHERE book.ISBN = @ISBN
 GO
 
-CREATE PROCEDURE createBookRequest
+CREATE OR ALTER PROCEDURE createBookRequest
 @copyID integer,
 @borrowerID integer,
 @lendingDate DateTime,
@@ -189,7 +189,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE setRequestStateByUsers
+CREATE OR ALTER PROCEDURE setRequestStateByUsers
 @shareAgreementId integer,
 @state integer
 AS
