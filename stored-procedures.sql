@@ -106,18 +106,22 @@ BEGIN
 	DECLARE @copyID integer;
 
     INSERT INTO [dbo].[bookCopy]
-		( bookID, ownerID )
+		(bookID, ownerID, deleted)
     OUTPUT INSERTED.copyID AS copyID
     VALUES 
-		( @ISBN, @ownerID )
+		( @ISBN, @ownerID, 0 )
 END;
 GO
 
 CREATE OR ALTER PROCEDURE removeCopyOfBook @copyID integer
 -- Removes a copy from the library
 AS
-    DELETE FROM bookCopy
-    WHERE copyID = @copyID
+BEGIN
+	SET NOCOUNT ON;
+	UPDATE [bookCopy]
+	SET deleted = 1
+	where copyID = @copyID
+END
 GO
 
 CREATE OR ALTER PROCEDURE getBooksByGenre @name varchar

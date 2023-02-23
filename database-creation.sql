@@ -14,7 +14,7 @@ GO
 CREATE TABLE [user] (
   [userID] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
   [username] varchar(15) UNIQUE NOT NULL,
-  [deleted] BIT
+  [deleted] BIT NOT NULL
 )
 GO
 
@@ -92,7 +92,8 @@ GO
 CREATE TABLE [bookCopy] (
   [copyID] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
   [bookID] bigint FOREIGN KEY REFERENCES [book]([ISBN]) NOT NULL,
-  [ownerID] integer FOREIGN KEY REFERENCES [user]([userID]) NOT NULL
+  [ownerID] integer FOREIGN KEY REFERENCES [user]([userID]) NOT NULL,
+  [deleted] BIT NOT NULL
 )
 GO
 
