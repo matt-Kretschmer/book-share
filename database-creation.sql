@@ -13,13 +13,13 @@ GO
 
 CREATE TABLE [user] (
   [userID] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
-  [username] varchar UNIQUE NOT NULL,
+  [username] varchar(15) UNIQUE NOT NULL,
   [deleted] BIT
 )
 GO
 
 CREATE TABLE [userEmail] (
-  [email] varchar PRIMARY KEY NOT NULL,
+  [email] varchar(120) PRIMARY KEY NOT NULL,
   [userID] integer FOREIGN KEY REFERENCES [user]([userID]) NOT NULL
 )
 GO
@@ -33,15 +33,15 @@ GO
 
 CREATE TABLE [book] (
   [ISBN] integer PRIMARY KEY NOT NULL,
-  [title] varchar NOT NULL,
-  [description] varchar NOT NULL,
+  [title] varchar(120) NOT NULL,
+  [description] varchar(500) NOT NULL,
   [pages] integer NOT NULL,
 )
 GO
 
 CREATE TABLE [genre] (
   [genreID] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
-  [name] varchar UNIQUE NOT NULL
+  [name] varchar(20) UNIQUE NOT NULL
 )
 GO
 
@@ -54,9 +54,9 @@ GO
 
 CREATE TABLE [author] (
   [authorID] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
-  [firstNames] varchar NOT NULL,
-  [lastName] varchar NOT NULL,
-  [about] varchar NOT NULL
+  [firstNames] varchar(120) NOT NULL,
+  [lastName] varchar(120) NOT NULL,
+  [about] varchar(300) NOT NULL
 )
 GO
 
@@ -69,7 +69,7 @@ GO
 
 CREATE TABLE [publisher] (
   [publisherID] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
-  [name] varchar NOT NULL
+  [name] varchar(120) NOT NULL
 )
 GO
 
@@ -85,7 +85,7 @@ CREATE TABLE [bookReview] (
   [bookID] integer FOREIGN KEY REFERENCES [book]([ISBN]) NOT NULL,
   [userID] integer FOREIGN KEY REFERENCES [user] ([userID]) NOT NULL,
   [rating] integer NOT NULL CHECK(rating > 0 AND rating < 6),
-  [description] varchar NULL
+  [description] varchar(200) NULL
 )
 GO
 
@@ -106,7 +106,7 @@ GO
 
 CREATE TABLE [agreementState] (
   [stateID] integer PRIMARY KEY NOT NULL,
-  [stateName] varchar NOT NULL
+  [stateName] varchar(20) NOT NULL
 )
 GO
 
