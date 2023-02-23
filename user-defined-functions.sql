@@ -1,3 +1,6 @@
+USE BookShareDB;
+GO
+
 CREATE OR ALTER FUNCTION copyIsAvailable
 (@copyID integer)
 RETURNS varchar 
@@ -38,7 +41,7 @@ END;
 GO
 
 CREATE OR ALTER FUNCTION getBookReviews
-(@isbn integer)
+(@isbn bigint)
 RETURNS TABLE 
 AS
 RETURN

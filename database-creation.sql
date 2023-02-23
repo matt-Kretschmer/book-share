@@ -32,9 +32,9 @@ CREATE TABLE [userRating] (
 GO
 
 CREATE TABLE [book] (
-  [ISBN] integer PRIMARY KEY NOT NULL,
+  [ISBN] bigint PRIMARY KEY NOT NULL,
   [title] varchar(120) NOT NULL,
-  [description] varchar(500) NOT NULL,
+  [description] varchar(1500) NOT NULL,
   [pages] integer NOT NULL,
 )
 GO
@@ -48,7 +48,7 @@ GO
 CREATE TABLE [bookGenre] (
   [bookGenreID] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
   [genreID] integer FOREIGN KEY REFERENCES [genre]([genreID]) NOT NULL,
-  [bookID] integer FOREIGN KEY REFERENCES [book]([ISBN]) NOT NULL
+  [bookID] bigint FOREIGN KEY REFERENCES [book]([ISBN]) NOT NULL
 )
 GO
 
@@ -56,14 +56,14 @@ CREATE TABLE [author] (
   [authorID] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
   [firstNames] varchar(120) NOT NULL,
   [lastName] varchar(120) NOT NULL,
-  [about] varchar(300) NOT NULL
+  [about] varchar(1000) NOT NULL
 )
 GO
 
 CREATE TABLE [bookAuthor] (
   [bookAuthorID] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
   [authorID] integer FOREIGN KEY REFERENCES [author]([authorID]) NOT NULL,
-  [bookID] integer FOREIGN KEY REFERENCES [book]([ISBN]) NOT NULL
+  [bookID] bigint FOREIGN KEY REFERENCES [book]([ISBN]) NOT NULL
 )
 GO
 
@@ -76,13 +76,13 @@ GO
 CREATE TABLE [bookPublisher] (
   [bookPublisherID] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
   [publisherID] integer FOREIGN KEY REFERENCES [publisher]([publisherID]) NOT NULL,
-  [bookID] integer FOREIGN KEY REFERENCES [book] ([ISBN]) NOT NULL
+  [bookID] bigint FOREIGN KEY REFERENCES [book] ([ISBN]) NOT NULL
 )
 GO
 
 CREATE TABLE [bookReview] (
   [bookReviewID] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
-  [bookID] integer FOREIGN KEY REFERENCES [book]([ISBN]) NOT NULL,
+  [bookID] bigint FOREIGN KEY REFERENCES [book]([ISBN]) NOT NULL,
   [userID] integer FOREIGN KEY REFERENCES [user] ([userID]) NOT NULL,
   [rating] integer NOT NULL CHECK(rating > 0 AND rating < 6),
   [description] varchar(200) NULL
@@ -91,7 +91,7 @@ GO
 
 CREATE TABLE [bookCopy] (
   [copyID] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
-  [bookID] integer FOREIGN KEY REFERENCES [book]([ISBN]) NOT NULL,
+  [bookID] bigint FOREIGN KEY REFERENCES [book]([ISBN]) NOT NULL,
   [ownerID] integer FOREIGN KEY REFERENCES [user]([userID]) NOT NULL
 )
 GO

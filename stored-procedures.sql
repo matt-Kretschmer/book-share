@@ -13,7 +13,7 @@ AS
 GO
 
 CREATE OR ALTER PROCEDURE [uspReviewABook]
-	@bookID integer,
+	@bookID bigint,
 	@userID integer,
 	@rating integer,
 	@description varchar = NULL
@@ -91,7 +91,7 @@ END
 GO
 
 
-CREATE OR ALTER PROCEDURE getBookCopiesAvailableByISBN @ISBN integer
+CREATE OR ALTER PROCEDURE getBookCopiesAvailableByISBN @ISBN bigint
 -- Looks for all available, i.e. unborrorowed/returned books in the library with that ISBN.
 AS
     SELECT bookCopy.copyID
@@ -99,7 +99,7 @@ AS
     WHERE bookID = @ISBN AND [dbo].[copyIsAvailable](copyID) = 'TRUE'
 GO
 
-CREATE OR ALTER PROCEDURE addCopyOfBook @ISBN integer, @ownerID integer
+CREATE OR ALTER PROCEDURE addCopyOfBook @ISBN bigint, @ownerID integer
 AS
 -- Adds a new copy of the book and returns it's copy ID
 BEGIN
@@ -148,7 +148,7 @@ AS
     WHERE book.title LIKE '%' + @title + '%'
 GO
 
-CREATE OR ALTER PROCEDURE getBookByISBN @ISBN integer
+CREATE OR ALTER PROCEDURE getBookByISBN @ISBN bigint
 AS
     SELECT book.title, book.description, book.pages 
     FROM book
