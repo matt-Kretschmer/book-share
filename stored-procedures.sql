@@ -1,7 +1,7 @@
 USE BookShareDB;
 GO
 
-CREATE PROCEDURE [uspGetErrorInfo]
+CREATE OR ALTER PROCEDURE [uspGetErrorInfo]
 AS
   SELECT
      ERROR_NUMBER() AS ErrorNumber,
@@ -12,7 +12,7 @@ AS
      ERROR_MESSAGE() AS ErrorMessage;
 GO
 
-CREATE PROCEDURE [uspReviewABook]
+CREATE OR ALTER PROCEDURE [uspReviewABook]
 	@bookID integer,
 	@userID integer,
 	@rating integer,
@@ -41,7 +41,7 @@ END CATCH
 END
 GO
 
-CREATE PROCEDURE [uspRateAUser]
+CREATE OR ALTER PROCEDURE [uspRateAUser]
 	@userID integer,
 	@rating integer
 AS
@@ -64,7 +64,7 @@ END CATCH
 END
 GO
 
-CREATE PROCEDURE [uspRateACopy]
+CREATE OR ALTER PROCEDURE [uspRateACopy]
 	@copyID integer,
 	@rating integer,
 	@ratingDate date
@@ -97,13 +97,6 @@ AS
     SELECT bookCopy.copyID
     FROM bookCopy
     WHERE bookID = @ISBN AND [dbo].[copyIsAvailable](copyID) = 'TRUE'
-GO
-
-CREATE OR ALTER PROCEDURE removeCopyOfBook @copyID integer
--- Removes a copy from the library
-AS
-    DELETE FROM bookCopy
-    WHERE copyID = @copyID
 GO
 
 CREATE OR ALTER PROCEDURE addCopyOfBook @ISBN integer, @ownerID integer
