@@ -223,3 +223,141 @@ BEGIN
 	where userID = @userID
 END
 GO
+
+CREATE OR ALTER PROCEDURE AddBookAuthor
+@authorId int,
+@bookId bigint
+AS
+	INSERT INTO bookAuthor (authorID,bookID)
+	VALUES (@authorId, @bookId)
+GO
+
+CREATE OR ALTER PROCEDURE HandleBookAuthor
+@ISBN BIGINT,
+@authorId int=null,
+@firstNames varchar(120),
+@lastname varchar(120),
+@about varchar(1000)
+AS
+IF(@authorId IS NULL)
+	Begin
+		INSERT INTO author(firstNames, lastName, about)
+		VALUES (@firstNames, @lastname, @about)
+		DECLARE @newAuthorId int
+
+		SET @newAuthorId = (SELECT SCOPE_IDENTITY())
+
+		EXEC AddBookAuthor @authorId=@newAuthorId, @bookId=@ISBN
+	END 
+IF(@authorId IS NOT NULL)
+BEGIN
+	EXEC AddBookAuthor @bookId=@ISBN, @authorId=@authorId
+END
+GO
+
+CREATE OR ALTER PROCEDURE addBookGenre
+@genreId int,
+@bookId bigint
+AS
+	INSERT INTO bookGenre(genreID,bookID)
+	VALUES (@genreId, @bookId)
+GO
+
+CREATE OR ALTER PROCEDURE handleBookGenre
+@genreId int=null,
+@genreName varchar(20),
+@bookId bigint
+AS
+IF(@genreId IS NULL)
+Begin
+	INSERT INTO genre("name")
+	VALUES (@genreName)
+	DECLARE @newGenreId int
+
+	SET @newGenreId = (SELECT SCOPE_IDENTITY())
+
+	EXEC AddBookGenre @genreId=@newGenreId, @bookId=@bookId
+END 
+IF(@genreId IS NOT NULL)
+BEGIN
+	EXEC addBookGenre @bookId=@bookId, @genreId=@genreId
+END
+GO
+
+CREATE OR ALTER PROCEDURE addBookPublisher
+@publisherId int,
+@bookId bigint
+
+AS
+	INSERT INTO bookPublisher(publisherID,bookID)
+	VALUES (@publisherId, @bookId)
+GO
+
+CREATE OR ALTER PROCEDURE handleBookPublisher
+@publisherId int=null,
+@publisherName varchar(20),
+@bookId bigint
+
+AS
+IF(@publisherId IS NULL)
+Begin
+	INSERT INTO publisher("name")
+	VALUES (@publisherName)
+	DECLARE @newPublisherId int
+
+	SET @newPublisherId = (SELECT SCOPE_IDENTITY())
+
+	EXEC addBookPublisher @publisherId=@newPublisherId, @bookId=@bookId
+END 
+IF(@publisherId IS NOT NULL)
+BEGIN
+	EXEC addBookPublisher @bookId=@bookId, @publisherId=@publisherId
+END
+GO
+
+CREATE OR ALTER PROCEDURE addBook
+@userId int,
+
+@ISBN BIGINT=null,
+@title varchar(120),
+@description varchar(1500),
+@pages int,
+
+@authorId int=null,
+@firstNames varchar(120),
+@lastname varchar(120),
+@about varchar(1000),
+
+@genreId varchar(max)=null,
+@genreName varchar(20),
+
+@publisherId int=null,
+@publisherName varchar(20)
+
+AS
+
+	Declare @existsCheck bit
+	set @existsCheck=(
+		SELECT CASE WHEN EXISTS (
+			SELECT 1 FROM book WHERE book.ISBN = 123456789
+		)
+		THEN CAST(1 AS BIT)
+		ELSE CAST(0 AS BIT) 
+		END
+	)
+	if(@existsCheck=0)
+	begin 
+		INSERT INTO book (ISBN, title, description, pages)
+		VALUES(@ISBN, @title, @description, @pages)
+	end
+
+	EXEC HandleBookAuthor @ISBN=@ISBN, @authorId=@authorId, @firstNames=@firstNames, @lastname=@lastname, @about=@about
+	
+	EXEC handleBookGenre @genreId=@genreId, @genreName=@genreName, @bookId=@ISBN
+
+	EXEC handleBookPublisher @publisherId=@publisherId,@bookId=@ISBN, @publisherName=@publisherName
+
+	INSERT INTO bookCopy(bookID, ownerID, deleted)
+	VALUES(@ISBN, @userId, 0)
+
+GO
