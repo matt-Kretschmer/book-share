@@ -96,7 +96,7 @@ CREATE OR ALTER PROCEDURE getBookCopiesAvailableByISBN @ISBN bigint
 AS
     SELECT bookCopy.copyID
     FROM bookCopy
-    WHERE bookID = @ISBN AND [dbo].[copyIsAvailable](copyID) = 'TRUE'
+    WHERE bookID = @ISBN AND [dbo].[copyIsAvailable](copyID) = 'TRUE' AND deleted = 0
 GO
 
 CREATE OR ALTER PROCEDURE addCopyOfBook @ISBN bigint, @ownerID integer

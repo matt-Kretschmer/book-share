@@ -17,7 +17,7 @@ BEGIN
 			FROM shareAgreement
 			INNER JOIN agreementState
 			ON shareAgreement.state = agreementState.stateID
-			WHERE @copyID = agreementID AND (stateName = 'pending' 
+			WHERE @copyID = copyID AND (stateName = 'pending' 
 				OR stateName = 'accepted'
 				OR stateName = 'received')
 	RETURN @available;
