@@ -339,7 +339,7 @@ AS
 	Declare @existsCheck bit
 	set @existsCheck=(
 		SELECT CASE WHEN EXISTS (
-			SELECT 1 FROM book WHERE book.ISBN = 123456789
+			SELECT 1 FROM book WHERE book.ISBN = @ISBN
 		)
 		THEN CAST(1 AS BIT)
 		ELSE CAST(0 AS BIT) 
