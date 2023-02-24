@@ -356,8 +356,4 @@ AS
 	EXEC handleBookGenre @genreId=@genreId, @genreName=@genreName, @bookId=@ISBN
 
 	EXEC handleBookPublisher @publisherId=@publisherId,@bookId=@ISBN, @publisherName=@publisherName
-
-	INSERT INTO bookCopy(bookID, ownerID, deleted)
-	VALUES(@ISBN, @userId, 0)
-
 GO

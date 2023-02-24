@@ -1,3 +1,6 @@
+USE BookShareDB;
+GO
+
 INSERT INTO [user](username, deleted)
 VALUES ('matt', 0),
 ('jade', 0),
@@ -184,4 +187,10 @@ INSERT INTO copyConditionRating([copyID], [rating], [ratingDate])
 VALUES (3, 5, GETDATE()),
 (2, 1, DATEADD(month, -2, GETDATE())),
 (1, 3, DATEADD(day, -7, GETDATE()));
+GO
+
+INSERT INTO shareAgreement([state], [copyID], [borrowerID], [lendingDate], [returnDate])
+VALUES ('0', '1', '2', '2023-02-25', '2023-02-28'),
+('1', '2', '1', '2023-02-25', '2023-02-28'),
+('2', '3', '2', '2023-02-25', '2023-02-28');
 GO

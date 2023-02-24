@@ -114,7 +114,6 @@ GO
 CREATE TABLE [shareAgreement] (
   [agreementID] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
   [copyID] integer FOREIGN KEY REFERENCES [bookCopy]([copyID]) NOT NULL,
-  [ownerID] integer FOREIGN KEY REFERENCES [user]([userID]) NOT NULL,
   [borrowerID] integer FOREIGN KEY REFERENCES [user]([userID]) NOT NULL,
   [lendingDate] date NOT NULL,
   [returnDate] date NOT NULL,
