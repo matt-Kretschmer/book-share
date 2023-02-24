@@ -311,9 +311,7 @@ END
 GO
 
 CREATE OR ALTER PROCEDURE addBook
-@userId int,
-
-@ISBN BIGINT=null,
+@ISBN BIGINT,
 @title varchar(120),
 @description varchar(1500),
 @pages int,
