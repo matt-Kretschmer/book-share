@@ -3,7 +3,7 @@ GO
 
 CREATE OR ALTER FUNCTION copyIsAvailable
 (@copyID integer)
-RETURNS varchar 
+RETURNS varchar(5) 
 AS
 -- Returns "TRUE" if a book copy is available. Uses the share agreement state 
 -- Checks that there aren't any cases where it's pending, accepted or received - as that means it's not available
@@ -17,7 +17,7 @@ BEGIN
 			FROM shareAgreement
 			INNER JOIN agreementState
 			ON shareAgreement.state = agreementState.stateID
-			WHERE @copyID = agreementID AND (stateName = 'pending' 
+			WHERE @copyID = copyID AND (stateName = 'pending' 
 				OR stateName = 'accepted'
 				OR stateName = 'received')
 	RETURN @available;

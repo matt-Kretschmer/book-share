@@ -96,7 +96,7 @@ CREATE OR ALTER PROCEDURE getBookCopiesAvailableByISBN @ISBN bigint
 AS
     SELECT bookCopy.copyID
     FROM bookCopy
-    WHERE bookID = @ISBN AND [dbo].[copyIsAvailable](copyID) = 'TRUE'
+    WHERE bookID = @ISBN AND [dbo].[copyIsAvailable](copyID) = 'TRUE' AND deleted = 0
 GO
 
 CREATE OR ALTER PROCEDURE addCopyOfBook @ISBN bigint, @ownerID integer
@@ -166,14 +166,9 @@ CREATE OR ALTER PROCEDURE createBookRequest
 @returnDate DateTime
 AS
 BEGIN
-	INSERT INTO shareAgreement (copyID,ownerID,borrowerID,lendingDate,returnDate,"state")
+	INSERT INTO shareAgreement (copyID,borrowerID,lendingDate,returnDate,[state])
 	VALUES (
 		@copyID,
-		(
-			SELECT u.userID 
-			FROM "user" u,bookCopy bc 
-			WHERE u.userID = bc.ownerID AND bc.copyID = @copyID
-		),
 		@borrowerID,
 		@lendingDate,
 		@returnDate,
@@ -193,7 +188,7 @@ AS
 BEGIN
 	UPDATE shareAgreement 
 	SET "state" = @state
-	where agreementID = @state
+	where agreementID = @shareAgreementId
 END
 GO
 
@@ -316,9 +311,7 @@ END
 GO
 
 CREATE OR ALTER PROCEDURE addBook
-@userId int,
-
-@ISBN BIGINT=null,
+@ISBN BIGINT,
 @title varchar(120),
 @description varchar(1500),
 @pages int,
@@ -356,8 +349,4 @@ AS
 	EXEC handleBookGenre @genreId=@genreId, @genreName=@genreName, @bookId=@ISBN
 
 	EXEC handleBookPublisher @publisherId=@publisherId,@bookId=@ISBN, @publisherName=@publisherName
-
-	INSERT INTO bookCopy(bookID, ownerID, deleted)
-	VALUES(@ISBN, @userId, 0)
-
 GO

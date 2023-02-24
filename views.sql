@@ -1,15 +1,14 @@
 USE BookShareDB;
 GO
 
-CREATE VIEW [vCurrentShareAgreements]
+CREATE OR ALTER VIEW [vCurrentShareAgreements]
 AS
 SELECT [agreementID],
 	   [copyID],
-	   [ownerID],
 	   [borrowerID],
 	   [lendingDate],
 	   [returnDate],
 	   [state]
 FROM [shareAgreement]
-WHERE [returnDate] >= CAST((GETDATE()) AS date);
+WHERE [state] = 0 OR [state] = 1 OR [state] = 3;
 GO
