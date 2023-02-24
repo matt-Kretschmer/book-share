@@ -188,7 +188,7 @@ AS
 BEGIN
 	UPDATE shareAgreement 
 	SET "state" = @state
-	where agreementID = @state
+	where agreementID = @shareAgreementId
 END
 GO
 
