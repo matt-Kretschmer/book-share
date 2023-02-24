@@ -166,14 +166,9 @@ CREATE OR ALTER PROCEDURE createBookRequest
 @returnDate DateTime
 AS
 BEGIN
-	INSERT INTO shareAgreement (copyID,ownerID,borrowerID,lendingDate,returnDate,"state")
+	INSERT INTO shareAgreement (copyID,borrowerID,lendingDate,returnDate,[state])
 	VALUES (
 		@copyID,
-		(
-			SELECT u.userID 
-			FROM "user" u,bookCopy bc 
-			WHERE u.userID = bc.ownerID AND bc.copyID = @copyID
-		),
 		@borrowerID,
 		@lendingDate,
 		@returnDate,

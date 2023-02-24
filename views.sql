@@ -5,7 +5,6 @@ CREATE VIEW [vCurrentShareAgreements]
 AS
 SELECT [agreementID],
 	   [copyID],
-	   [ownerID],
 	   [borrowerID],
 	   [lendingDate],
 	   [returnDate],
